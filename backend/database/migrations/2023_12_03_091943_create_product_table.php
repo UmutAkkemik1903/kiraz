@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('product', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
+            $table->float('price');
+            $table->text('description');
             $table->timestamp('created_at')->nullable();
             $table->timestamp('updated_at')->nullable();
             $table->timestamp('deleted_at')->nullable();

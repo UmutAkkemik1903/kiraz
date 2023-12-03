@@ -11,6 +11,7 @@
   scrollbar-width: none;
   scroll-behavior: smooth;
   padding-top: 10px;
+  
   margin-left: 60px;
 
 }
@@ -58,7 +59,7 @@
     background: white;
     display: inline-block;
     margin-right: 5px;
-    margin-left: 5px;
+    margin-left: 15px;
     position: relative;
     box-shadow: 0 1px 2px #00000029;
 }
@@ -81,10 +82,11 @@
     }
 .c-slider-card-2 .img-album {
   width: 250px;
-  height: 250px;
+  height: 200px;
   border-radius: 10px;
   box-shadow: 2px 2px 2px 2px;
   position: relative;
+  margin-bottom: 150px;
 }
 .img-album:hover{
   transition: 1ms;
@@ -98,30 +100,35 @@
 .c-header-mi {
     position: relative;
     color: black;
-    width: 200px;
-    display: flex;
-    flex-direction: column;
+    width: 150px;
   }
   
-  .c-header-mi h4 {
+  .c-header-mi h3 {
     position: absolute;
     font-family: 'Times New Roman', Times, serif;
     margin-bottom: 150px;
     color: black;
-    top: -75px;
+  }
+  .c-header-mi h4 {
+    position: absolute;
+    font-family: 'Times New Roman', Times, serif;
+    margin-bottom: 150px;
+    color: rgb(80, 74, 74);
+    top: 25px;
   }
   .c-header-mi h5 {
     position: absolute;
     font-family: 'Times New Roman', Times, serif;
     margin-bottom: 150px;
-    color: black;
-    top: -75px;
+    color: rgb(145, 32, 32);
+    top: 50px;
   }
   .c-controls {
-    color: black;
+    color: rgb(22, 21, 21);
     margin-top: 50px;
     margin-right: 50px;
   }
+ 
   .c-controls .fas {
     color: transparent;
   }
