@@ -4,7 +4,9 @@ import { Image, Form, Select, InputNumber, Button,notification,Input } from 'ant
 import axios from 'axios';
 import baseUrl from '../backend/BaseUrl';
 import '../css/ProductCard.css';
+import { useNavigate  } from 'react-router-dom';
 function ProductCard(props) {
+  const history = useNavigate ();
   const [api, contextHolder] = notification.useNotification();
   const createSuccess = (type) => {
       api[type]({
@@ -82,14 +84,13 @@ function ProductCard(props) {
   };
 
   const order = (id) => {
-    let token = localStorage.getItem('token');
-    token = token.replace(/"/g, '');
+  const token = localStorage.getItem('token');
   const orderData = {
         count,
         id
     };
-
-    axios.post(baseUrl + 'cart', orderData, {
+    if(token){
+      axios.post(baseUrl + 'cart', orderData, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -101,6 +102,10 @@ function ProductCard(props) {
     .catch((err) => {
       createWarning('error');
     });
+    } else {
+      history('/login')
+    }
+   
 };
   return (
     <>
