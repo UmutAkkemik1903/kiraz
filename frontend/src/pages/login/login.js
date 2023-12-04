@@ -42,7 +42,7 @@ function Login(){
 				const data = await response.json();
 				const plaintext = data.access_token;
 				const token = CryptoJS.AES.encrypt(plaintext, password).toString();
-				localStorage.setItem('token', JSON.stringify(token));
+				localStorage.setItem('token', JSON.stringify(plaintext));
 				window.location.href = data.redirect;
 			}
 		} catch (error) {

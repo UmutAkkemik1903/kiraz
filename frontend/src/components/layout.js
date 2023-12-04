@@ -1,9 +1,8 @@
 import React from 'react';
 import { Layout, Space } from 'antd';
 import NavBar from './navbar'
-import SideBar from './sidebar'
 import {Outlet} from "react-router-dom";
-const { Header, Footer, Sider, Content } = Layout;
+const { Header, Content } = Layout;
 const headerStyle = {
   height: 64,
   paddingInline: 50,
@@ -35,7 +34,7 @@ const App = () => (
     <Layout>
       <Header style={headerStyle}><NavBar /></Header>
       <Layout hasSider>
-        <Sider style={siderStyle}><SideBar /></Sider>
+       
         <Content
             style={ contentStyle}
           >
@@ -43,6 +42,6 @@ const App = () => (
           </Content>
       </Layout>
     </Layout>
-  </Space>
+  </Space> 
 );
 export default App; 

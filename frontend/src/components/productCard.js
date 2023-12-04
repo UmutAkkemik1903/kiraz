@@ -1,15 +1,27 @@
 import React, { useEffect, useState } from 'react';
-import {
-  LeftOutlined,
-  RightOutlined,
-  ShoppingCartOutlined
-} from '@ant-design/icons';
-import { Image, Form, Select, InputNumber, Button } from 'antd';
+import { LeftOutlined, RightOutlined, ShoppingCartOutlined } from '@ant-design/icons';
+import { Image, Form, Select, InputNumber, Button,notification,Input } from 'antd';
 import axios from 'axios';
 import baseUrl from '../backend/BaseUrl';
 import '../css/ProductCard.css';
-
 function ProductCard(props) {
+  const [api, contextHolder] = notification.useNotification();
+  const createSuccess = (type) => {
+      api[type]({
+          message: 'Sepet',
+          description:
+              'Ürün eklendi',
+      });
+  };
+  const createWarning = (type) => {
+      api[type]({
+          message: 'Sepet',
+          description:
+              'Ürün eklenemedi',
+      });
+  };
+  const [count, setCount] = useState(1);
+
   const sliderListLeft = () => {
     var slider = document.getElementById('c-slider-card');
     slider.scrollLeft = slider.scrollLeft - 500;
@@ -27,9 +39,7 @@ function ProductCard(props) {
 
   const fetchProducts = async (category_id, sort_key) => {
     try {
-      const res = await axios.get(
-        baseUrl + `product?category_id=${category_id}&sort=${sort_key}`
-      );
+      const res = await axios.get(baseUrl + `product?category_id=${category_id}&sort=${sort_key}`);
       setProduct(res.data);
     } catch (error) {
       console.error(error);
@@ -67,12 +77,34 @@ function ProductCard(props) {
   };
 
   const handleClearSelect = () => {
-    setSearchText(''); 
-    fetchProducts('', ''); 
+    setSearchText('');
+    fetchProducts('', '');
   };
 
+  const order = (id) => {
+    let token = localStorage.getItem('token');
+    token = token.replace(/"/g, '');
+  const orderData = {
+        count,
+        id
+    };
+
+    axios.post(baseUrl + 'cart', orderData, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+    })
+    .then((res) => {
+      createSuccess('success');
+    })
+    .catch((err) => {
+      createWarning('error');
+    });
+};
   return (
     <>
+     {contextHolder}
       <Form
         style={{ display: 'flex' }}
         name="basic"
@@ -129,7 +161,7 @@ function ProductCard(props) {
             </Option>
           </Select>
         </Form.Item>
-        <Button style={{ marginLeft: '10px',marginTop:'25px' }} onClick={handleClearSelect}>
+        <Button style={{ marginLeft: '10px', marginTop: '25px' }} onClick={handleClearSelect}>
           Temizle
         </Button>
       </Form>
@@ -138,14 +170,21 @@ function ProductCard(props) {
         <div id="c-slider-card">
           {product.map((productList) => (
             <div key={productList.id} className="c-slider-card-2">
-              <Image
-                height={200}
-                className="img-album"
-                src="img/80847f1e.png"
-              />
+              <Image height={200} className="img-album" src="img/80847f1e.png" />
               <div style={{ marginRight: '400px' }} className="c-controls">
-                <InputNumber style={{ width: '40px' }} className="input-number" />
-                <ShoppingCartOutlined />
+                <Form>
+                  <InputNumber
+                    min={1}
+                    max={100}
+                    defaultValue={1}
+                    onChange={(value) => setCount(value)}
+                    style={{ width: '40px' }}
+                    className="input-number"
+                  />
+                  <Button  onClick={() => order(productList.id)}>
+                    <ShoppingCartOutlined />
+                  </Button>
+                </Form>
               </div>
               <div className="c-header-mi">
                 <div style={{ display: 'block' }}>
